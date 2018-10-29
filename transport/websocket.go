@@ -1,6 +1,7 @@
 package transport
 
 import (
+	"crypto/tls"
 	"errors"
 	"github.com/gorilla/websocket"
 	"io/ioutil"
@@ -90,10 +91,11 @@ type WebsocketTransport struct {
 	BufferSize int
 
 	RequestHeader http.Header
+	TLSClientConfig *tls.Config
 }
 
 func (wst *WebsocketTransport) Connect(url string) (conn Connection, err error) {
-	dialer := websocket.Dialer{}
+	dialer := websocket.Dialer{TLSClientConfig: t.TLSClientConfig}
 	socket, _, err := dialer.Dial(url, wst.RequestHeader)
 	if err != nil {
 		return nil, err
@@ -134,5 +136,7 @@ func GetDefaultWebsocketTransport() *WebsocketTransport {
 		ReceiveTimeout: WsDefaultReceiveTimeout,
 		SendTimeout:    WsDefaultSendTimeout,
 		BufferSize:     WsDefaultBufferSize,
+		TLSClientConfig:     &tls.Config{
+			},
 	}
 }
