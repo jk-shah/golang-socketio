@@ -1,11 +1,11 @@
 package main
 
 import (
-	"github.com/graarh/golang-socketio"
-	"github.com/graarh/golang-socketio/transport"
 	"log"
 	"net/http"
 	"time"
+
+	"github.com/jk-shah/golang-socketio/transport"
 )
 
 type Channel struct {

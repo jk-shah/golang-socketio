@@ -1,5 +1,6 @@
 golang socket.io
 ================
+(WITH FIX: Add TLS to client)
 
 golang implementation of [socket.io](http://socket.io) library, client and server
 
@@ -9,7 +10,7 @@ Examples directory contains simple client and server.
 
 ### Installation
 
-    go get github.com/graarh/golang-socketio
+    go get github.com/jk-shah/golang-socketio
 
 ### Simple server usage
 

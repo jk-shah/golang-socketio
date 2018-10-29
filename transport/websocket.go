@@ -3,14 +3,15 @@ package transport
 import (
 	"crypto/tls"
 	"errors"
-	"github.com/gorilla/websocket"
 	"io/ioutil"
 	"net/http"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 const (
-	upgradeFailed     = "Upgrade failed: "
+	upgradeFailed = "Upgrade failed: "
 
 	WsDefaultPingInterval   = 30 * time.Second
 	WsDefaultPingTimeout    = 60 * time.Second
@@ -90,12 +91,12 @@ type WebsocketTransport struct {
 
 	BufferSize int
 
-	RequestHeader http.Header
+	RequestHeader   http.Header
 	TLSClientConfig *tls.Config
 }
 
 func (wst *WebsocketTransport) Connect(url string) (conn Connection, err error) {
-	dialer := websocket.Dialer{TLSClientConfig: t.TLSClientConfig}
+	dialer := websocket.Dialer{TLSClientConfig: wst.TLSClientConfig}
 	socket, _, err := dialer.Dial(url, wst.RequestHeader)
 	if err != nil {
 		return nil, err
@@ -131,12 +132,11 @@ Returns websocket connection with default params
 */
 func GetDefaultWebsocketTransport() *WebsocketTransport {
 	return &WebsocketTransport{
-		PingInterval:   WsDefaultPingInterval,
-		PingTimeout:    WsDefaultPingTimeout,
-		ReceiveTimeout: WsDefaultReceiveTimeout,
-		SendTimeout:    WsDefaultSendTimeout,
-		BufferSize:     WsDefaultBufferSize,
-		TLSClientConfig:     &tls.Config{
-			},
+		PingInterval:    WsDefaultPingInterval,
+		PingTimeout:     WsDefaultPingTimeout,
+		ReceiveTimeout:  WsDefaultReceiveTimeout,
+		SendTimeout:     WsDefaultSendTimeout,
+		BufferSize:      WsDefaultBufferSize,
+		TLSClientConfig: &tls.Config{},
 	}
 }
